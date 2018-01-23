@@ -21,7 +21,7 @@ class ForensicsAPI
     end
   end
 
-  def check_location(x: x_axis, y: y_axis)
+  def check_location(x:, y:)
     response = HTTParty.get("#{BASE_URL}#{email_address}/location/#{x}/#{y}")
 
     if response.code == 200
