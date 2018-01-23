@@ -9,7 +9,7 @@ class CoordinateFinder
   end
 
   def call
-    coordinates = Coordinates.new(x: 0, y: 0)
+    coordinates = Coordinates.new
 
     directions.map do |direction|
       raise IncorrectDirection unless CORRECT_DIRECTIONS.include?(direction)
