@@ -64,4 +64,5 @@ class CoordinateFinder
 
     attr_reader :turnings
   end
+  private_constant :Coordinates
 end
