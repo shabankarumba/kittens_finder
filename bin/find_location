@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../lib/coordinate_finder'
+require_relative '../lib/forensics_api'
+
+email_address = ARGV[0]
+if ARGV[0].nil? || ARGV == ''
+  puets 'Please provide a valid email address'
+else
+  forensics_api = ForensicsAPI.new(email_address)
+  directions = forensics_api.retrieve_directions
+
+  coordinate_finder = CoordinateFinder.new(directions)
+  coordinates = coordinate_finder.call
+
+  puts forensics_api.check_location(x: coordinates[:x], y: coordinates[:y])
+end
