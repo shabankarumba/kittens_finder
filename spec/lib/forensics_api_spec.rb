@@ -1,48 +1,49 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require_relative '../../lib/forensics_api'
 
 RSpec.describe ForensicsAPI do
   subject { described_class.new('foo@bar.com') }
- 
+
   describe '#retrieve_directions' do
     let(:directions) do
-      [
-        "forward", "right", "forward",
-        "forward", "forward", "left",
-        "forward", "forward", "left",
-        "right", "forward", "right",
-        "forward", "forward", "right",
-        "forward", "forward", "left"
+      %w[
+        forward right forward
+        forward forward left
+        forward forward left
+        right forward right
+        forward forward right
+        forward forward left
       ]
     end
     let(:url) { 'http://which-technical-exercise.herokuapp.com/api/foo@bar.com/directions' }
-    let(:response_body) { { directions:  directions } }
-    
+    let(:response_body) { { directions: directions } }
+
     context 'when the response is successful' do
-      
       before do
         stub_request(:get, url).to_return(status: 200, body: response_body.to_json)
       end
-    
+
       it 'outputs the directions from the api endpoint' do
         expect(subject.retrieve_directions).to eq(directions)
       end
-   end
+    end
 
-   context 'when the response is not successful' do
-     before do
-       stub_request(:get, url).to_return(status: 500)
-     end
+    context 'when the response is not successful' do
+      before do
+        stub_request(:get, url).to_return(status: 500)
+      end
 
-     it 'outputs an error message' do
-       expect { subject.retrieve_directions }.to raise_error(described_class::ServerError, /The server could not be reached at this moment please try again soon/)
-     end
-   end
+      it 'outputs an error message' do
+        expect { subject.retrieve_directions }.to raise_error(described_class::ServerError, /The server could not be reached at this moment please try again soon/)
+      end
+    end
   end
 
   describe '#check_location' do
-    let(:url)  { 'http://which-technical-exercise.herokuapp.com/api/foo@bar.com/location' }
-    
+    let(:url) { 'http://which-technical-exercise.herokuapp.com/api/foo@bar.com/location' }
+
     context 'when the server responds succsefully' do
       context 'when the location is correct' do
         let(:message) do
@@ -57,7 +58,7 @@ RSpec.describe ForensicsAPI do
         end
 
         it 'outputs a success message' do
-          expect(subject.check_location(x: 1,y: 5)).to eq(message + ' For location X: 1, Y: 5')
+          expect(subject.check_location(x: 1, y: 5)).to eq(message + ' For location X: 1, Y: 5')
         end
       end
 
@@ -74,7 +75,7 @@ RSpec.describe ForensicsAPI do
         end
 
         it 'outputs an unsucessfull message' do
-          expect(subject.check_location(x: 1,y: -5)).to eq(message + ' For location X: 1, Y: -5')
+          expect(subject.check_location(x: 1, y: -5)).to eq(message + ' For location X: 1, Y: -5')
         end
       end
     end

@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class CoordinateFinder
   def initialize(directions)
     @directions = directions
   end
 
-  def call  
+  def call
     coordinates = Coordinates.new(x: 0, y: 0)
-    
+
     directions.map do |direction|
       coordinates.public_send(direction.to_sym)
     end
@@ -24,7 +26,7 @@ class CoordinateFinder
       @y = y
       @turnings = turnings
     end
-  
+
     def facing
       directions[turnings % directions.count]
     end
@@ -32,7 +34,7 @@ class CoordinateFinder
     def left
       @turnings -= 1
     end
-  
+
     def right
       @turnings += 1
     end
@@ -51,10 +53,11 @@ class CoordinateFinder
     end
 
     def directions
-      [:forward, :right, :backward, :left]
+      %i[forward right backward left]
     end
 
     private
+
     attr_reader :turnings
   end
 end
