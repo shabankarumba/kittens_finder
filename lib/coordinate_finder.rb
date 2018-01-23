@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class CoordinateFinder
+  CORRECT_DIRECTIONS = %w[forward left right].freeze
+  IncorrectDirection = StandardError.new('Incorrect direction provided')
+
   def initialize(directions)
     @directions = directions
   end
@@ -9,6 +12,7 @@ class CoordinateFinder
     coordinates = Coordinates.new(x: 0, y: 0)
 
     directions.map do |direction|
+      raise IncorrectDirection unless CORRECT_DIRECTIONS.include?(direction)
       coordinates.public_send(direction.to_sym)
     end
 

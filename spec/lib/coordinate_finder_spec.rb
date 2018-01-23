@@ -15,8 +15,18 @@ RSpec.describe CoordinateFinder do
   subject { described_class.new(directions) }
 
   describe '#call' do
-    it 'outputs the coordinates of the kittens' do
-      expect(subject.call).to eq(x: 5, y: 2)
+    context 'when correct directions are provided' do
+      it 'outputs the coordinates of the kittens' do
+        expect(subject.call).to eq(x: 5, y: 2)
+      end
+    end
+
+    context 'when incorrect directions are provided' do
+      let(:directions) { ['forwar'] }
+
+      it 'raises an error' do
+        expect { subject.call }.to raise_error(described_class::IncorrectDirection, /Incorrect direction provided/)
+      end
     end
   end
 end
