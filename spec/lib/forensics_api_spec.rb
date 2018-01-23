@@ -44,7 +44,7 @@ RSpec.describe ForensicsAPI do
   describe '#check_location' do
     let(:url) { 'http://which-technical-exercise.herokuapp.com/api/foo@bar.com/location' }
 
-    context 'when the server responds succsefully' do
+    context 'when the server responds successfully' do
       context 'when the location is correct' do
         let(:message) do
           <<~MESSAGE
